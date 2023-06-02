@@ -55,23 +55,31 @@ export const truckerHandler = async (req, res) => {
   }
 };
 
-export const careerHandler = async (req, res) => {
+export const shipperHandler = async (req, res) => {
   try {
-    const { fName, lName, mobile, email, role, date } = req.body;
+    const {
+      fromCity,
+      toCity,
+      materialWeight,
+      vehicleType,
+      truckLength,
+      truckHeight,
+    } = req.body;
 
     const emailBody = `
-        First Name: ${fName}
-        Last Name: ${lName}
-        Email: ${email}
-        Mobile No: ${mobile}
-        Role: ${role}
-        Start Date: ${date}
+        Origin City: ${fromCity}
+        Destination City: ${toCity}
+        Material Weight: ${materialWeight}
+        Vehicle Type: ${vehicleType}
+        Truck Length: ${truckLength}
+        Truck Height: ${truckHeight}
       `;
 
+    // console.log(process.USER, process.PASS, emailAddresses);
     const mailOptions = {
-      from: process.env.EMAIL,
-      to: "pm@jethitech.com",
-      subject: "Career Form Submission",
+      from: emailAddresses,
+      to: process.env.USER,
+      subject: "Shipper Form Submission",
       text: emailBody,
     };
 
