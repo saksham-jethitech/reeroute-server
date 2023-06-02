@@ -16,10 +16,11 @@ dotenv.config();
 //   },
 // });
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
+  //   host: "smtp.gmail.com",
+  host: process.env.HOST,
+  port: process.env.PORT,
   secure: false,
-  service: "gmail",
+  service: process.env.SERVICE,
   auth: {
     user: process.env.USER,
     pass: process.env.PASS,
