@@ -90,3 +90,58 @@ export const shipperHandler = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const contactUsHandler = async (req, res) => {
+  try {
+    const { name, email, phoneNumber, city, message } = req.body;
+
+    const emailBody = `
+        Name: ${name}
+        Email: ${email}
+        Phone Number: ${phoneNumber}
+        City: ${city}
+        message: ${message}
+      `;
+
+    // console.log(process.USER, process.PASS, emailAddresses);
+    const mailOptions = {
+      from: emailAddresses,
+      to: process.env.USER,
+      subject: "Contact Us Form Submission",
+      text: emailBody,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "message sent successfully" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const CarrerHandler = async (req, res) => {
+  try {
+    const { name, email, mobileNumber, department } = req.body;
+
+    const emailBody = `
+        Name: ${name}
+        Email: ${email}
+        Phone Number: ${mobileNumber}
+        Department: ${department}
+      `;
+
+    // console.log(process.USER, process.PASS, emailAddresses);
+    const mailOptions = {
+      from: emailAddresses,
+      to: process.env.USER,
+      subject: "Carrer Form Submission",
+      text: emailBody,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "message sent successfully" });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
