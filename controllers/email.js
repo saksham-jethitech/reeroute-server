@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -64,12 +65,13 @@ export const shipperHandler = async (req, res) => {
       vehicleType,
       truckLength,
       truckHeight,
+      isKg,
     } = req.body;
 
     const emailBody = `
         Origin City: ${fromCity}
         Destination City: ${toCity}
-        Material Weight: ${materialWeight}
+        Material Weight: ${materialWeight} ${isKg ? "KGs" : "Tons"}
         Vehicle Type: ${vehicleType}
         Truck Length: ${truckLength}
         Truck Height: ${truckHeight}
@@ -122,6 +124,7 @@ export const contactUsHandler = async (req, res) => {
 export const CarrerHandler = async (req, res) => {
   try {
     const { name, email, mobileNumber, department } = req.body;
+    const resumeFile = req.file;
 
     const emailBody = `
         Name: ${name}
@@ -130,12 +133,20 @@ export const CarrerHandler = async (req, res) => {
         Department: ${department}
       `;
 
+    // console.log("file", resumeFile);
+    // console.log("name", name);
     // console.log(process.USER, process.PASS, emailAddresses);
     const mailOptions = {
       from: emailAddresses,
       to: process.env.USER,
       subject: "Carrer Form Submission",
       text: emailBody,
+      attachments: [
+        {
+          filename: resumeFile.originalname,
+          path: resumeFile.path,
+        },
+      ],
     };
 
     await transporter.sendMail(mailOptions);
